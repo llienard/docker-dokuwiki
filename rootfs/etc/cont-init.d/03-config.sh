@@ -11,6 +11,7 @@ OPCACHE_MEM_SIZE=${OPCACHE_MEM_SIZE:-128}
 REAL_IP_FROM=${REAL_IP_FROM:-0.0.0.0/32}
 REAL_IP_HEADER=${REAL_IP_HEADER:-X-Forwarded-For}
 LOG_IP_VAR=${LOG_IP_VAR:-remote_addr}
+DISABLE_REINDEX=${DISABLE_REINDEX:-0}
 
 # Timezone
 echo "Setting timezone to ${TZ}..."
@@ -109,7 +110,7 @@ if [ ${firstInstall} -eq 1 ]; then
   echo ">>"
   echo ">> Open your browser to install DokuWiki through the wizard (/install.php)"
   echo ">>"
-else
+elif [ ! "$DISABLE_REINDEX" ]; then
   echo "Launching DokuWiki indexer..."
   runas_user php7 /var/www/bin/indexer.php -c
 fi
